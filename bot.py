@@ -18,5 +18,10 @@ async def on_message(message):
         data = response.json()
         for fight in data['Fights']:
             await message.channel.send(f"Fight: {fight['Description']} Odds: {fight['Odds']}")
+    if message.content.startswith("!eventids"):
+        response = requests.get("https://api.sportsdata.io/v3/ufc/odds/json/EventIds?key=" + api_key)
+        event_data = response.json()
+        event_list = "\n".join(event_data)
+        await message.channel.send("Here are the available event IDs: \n" + event_list)
 
 client.run("Discord_Bot_Token")
